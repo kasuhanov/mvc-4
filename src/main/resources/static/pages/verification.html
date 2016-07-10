@@ -1,0 +1,14 @@
+<h3>Подтверждение регистрации</h3>
+<div class="main-block">
+    <div class="help-block" style="color:#a94442;">
+    		<p ng-show="timeout">Время подтверждения регистрации истекло.</p>
+    		<p ng-show="notFound">Некорректная ссылка.</p>
+    		<button ng-show="timeout" class="btn btn-default" ng-click="resend()">
+                Переотправить письмо для подтвердения
+                <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="loading"></span>
+            </button>
+    		<p ng-show="failed">При обработке запроса произошла ошибка.</p>
+    		<p ng-show="success" style="color:green">Ваша регистрация успешно подтверждена.</p>
+    		<p ng-show="sendSuccess" style="color:green">Письмо отправлено</p>
+    </div>	
+</div>

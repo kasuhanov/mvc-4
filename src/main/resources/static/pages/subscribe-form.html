@@ -1,0 +1,28 @@
+<div class="main-block">
+    <div class="purchase-main-block" ng-show="authenticated">
+        <form ng-submit="subscribe()">
+            <h4 class="centered">Отправлять мне сообщения о новых закупках в отмеченых категориях</h4>
+            <div class="checkbox" ng-repeat="category in categories | orderBy:'name'" style="font-size: 14px">
+                <label
+                       ng-click="subscribe(category.id)">
+                    <span ng-show="selected[category.id]" class="glyphicon glyphicon-check"></span>
+                    <span ng-show="!selected[category.id]" class="glyphicon glyphicon-unchecked"></span>
+                    {{category.name}}
+                </label>
+            </div>
+            <h4 class="centered">Отправлять сообщения о приближении окончания срока
+                подачи заявок избранных закупок</h4>
+            <div class="checkbox" ng-click="changeNotify()" style="font-size: 14px">
+                <label>
+                <span ng-show="notify" class="glyphicon glyphicon-check"></span>
+                <span ng-show="!notify" class="glyphicon glyphicon-unchecked"></span>
+                Отправлять мне сообщения о приближении окончания срока
+                подачи заявок избранных закупок
+                </label>
+            </div>
+        </form>
+    </div>
+    <div ng-show="!authenticated">
+        <h4 class="centered">Чтобы подписаться на рассылку вам необходимо войти в систему</h4>
+    </div>
+</div>

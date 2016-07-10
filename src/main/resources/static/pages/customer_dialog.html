@@ -1,0 +1,89 @@
+<div>
+    <div class="modal-header">
+        <h4 class="modal-title centered">Выбор организации</h4>
+        <span class="atabl" style="float: right"><a href="" ng-click="closeDialog()">Закрыть</a></span>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline form" name="customerForm" novalidate ng-submit="search()">
+            <div>
+                <label>Введите название или ИНН организации</label>
+                <input required name="pattern" type="text"
+                       style="width: 100%" ng-model="query"/>
+                <div class="atabl" style="margin: 10px 0">
+                    <a href="" style="margin-right: 10px" ng-click="search()">Поиск</a>
+                    <a href="" ng-click="clear()">Очистить</a>
+                </div>
+            </div>
+            <div>
+                <table id="purchase_table" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="col-md-2">
+                            <span class="atabl">
+                                 <a href="" ng-click="changeOrder('id')">ИНН</a>
+                            </span>
+                            <span ng-show="orderby=='id'">
+                                <span ng-show="order=='asc'" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="order=='desc'" class="glyphicon glyphicon-triangle-top"></span>
+                            </span>
+                        </th>
+                        <th class="col-md-4">
+                            <span class="atabl">
+                                 <a href="" ng-click="changeOrder('name')">Наименование Организации</a>
+                            </span>
+                            <span ng-show="orderby=='name'">
+                                <span ng-show="order=='asc'" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="order=='desc'" class="glyphicon glyphicon-triangle-top"></span>
+                            </span>
+                        </th>
+                        <th class="col-md-2">
+                            <span class="atabl">
+                                 <a href="" ng-click="changeOrder('email')">Электронный адрес</a>
+                            </span>
+                            <span ng-show="orderby=='email'">
+                                <span ng-show="order=='asc'" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="order=='desc'" class="glyphicon glyphicon-triangle-top"></span>
+                            </span>
+                        </th>
+                        <th class="col-md-2">
+                            <span class="atabl">
+                                 <a href="" ng-click="changeOrder('phone')">Телефон</a>
+                            </span>
+                            <span ng-show="orderby=='phone'">
+                                <span ng-show="order=='asc'" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="order=='desc'" class="glyphicon glyphicon-triangle-top"></span>
+                            </span>
+                        </th>
+                        <th class="col-md-4">
+                            <span class="atabl">
+                                 <a href="" ng-click="changeOrder('postalAddress')">Почтовый адрес</a>
+                             </span>
+                            <span ng-show="orderby=='postalAddress'">
+                                <span ng-show="order=='asc'" class="glyphicon glyphicon-triangle-bottom"></span>
+                                <span ng-show="order=='desc'" class="glyphicon glyphicon-triangle-top"></span>
+                            </span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="purchase-table-body">
+                    <tr ng-repeat="purchase in purchases">
+                        <td>
+                            {{purchase.id}}
+                            <div class="atabl">
+                                <a href="" ng-click="submit(purchase)">Выбрать</a>
+                            </div>
+                        </td>
+                        <td>{{purchase.name}}</td>
+                        <td>{{purchase.email}}</td>
+                        <td>{{purchase.phone | date:'dd.MM.yyyy'}}</td>
+                        <td>{{purchase.postalAddress}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="purchase-table-pagination">
+                    <div uib-pagination class="centered" boundary-links="true" max-size="10" num-pages="numPages" total-items="totalItems" items-per-page="pageSize" ng-model="currentPage"  ng-change="pageChanged()" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

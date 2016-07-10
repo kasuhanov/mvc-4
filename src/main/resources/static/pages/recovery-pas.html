@@ -1,0 +1,43 @@
+<h3>Изменение пароля</h3>
+<div class="main-block" id="input_block">
+     <form class="form-inline form" name="recoverForm" ng-submit="recover()">
+		<div ng-class="{ 'has-error': recoverForm.password.$touched && recoverForm.password.$invalid }">
+			<label>Новый пароль</label><br/>
+			<input name="password" type="password" ng-model="user.password" ng-minlength="4" ng-maxlength="20" required/>
+            <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="user.password=null">
+			<div class="help-block" ng-messages="recoverForm.password.$error" ng-if="recoverForm.password.$touched">
+	        	<p ng-message="required">Это поле обязательное.</p>
+	        	<p ng-message="minlength">Пароль должен быть не меньше 5 символов.</p>
+	        	<p ng-message="minlength">Слишком длинный пароль.</p>
+      		</div>			
+		</div>
+		<div ng-class="{ 'has-error': recoverForm.confirmPassword.$touched && recoverForm.confirmPassword.$invalid }">
+			<label>Подтверждение пароля</label><br/>
+			<input name="confirmPassword" type="password" ng-model="user.confirmPassword" compare-to="user.password" required/>
+            <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="user.confirmPassword=null">
+			<div class="help-block" ng-messages="recoverForm.confirmPassword.$error" ng-if="recoverForm.confirmPassword.$touched">
+	        	<p ng-message="required">Это поле обязательное.</p>
+				<p ng-message="compareTo">Пароли должны совпадать.</p>
+      		</div>	
+		</div>       
+		<br/>
+         <div>
+             <span class="atabl">
+                 <a href="" ng-class="{'disabled':recoverForm.$invalid || success || loading}" ng-click="recover()">Восстановить</a>
+             </span>
+         </div>
+         <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="loading"></span>
+    	<div class="help-block" style="color:#a94442;">
+    		<p ng-show="success" style="color:green">Пароль успешно изменен</p>
+            <p ng-show="notFound">Некорректная ссылка.</p>
+    		<p ng-show="timeout">Время восстановления пароля истекло или
+                эта ссылка уже использовалась для восстановления пароля.</p>
+    		<button ng-show="timeout" class="btn btn-default" ng-click="resend()">
+                Переотправить письмо для восстановления
+                <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="loading"></span>
+            </button>
+    		<p ng-show="failed">При обработке запроса произошла ошибка.</p>
+    		<p ng-show="sendSuccess" style="color:green">Письмо отправлено</p>
+    	</div>	
+	</form>
+</div>

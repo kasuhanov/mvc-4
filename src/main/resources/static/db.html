@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="db">
+<head>
+    <title>Настройка Базы Данных</title>
+    <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="webjars/angularjs/1.5.0/angular.min.js"></script>
+    <script src="js/db.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body ng-controller="MainController">
+        <p ng-show="db.up=='true'">Подключено <a href="/">Перейти к сайту</a></p>
+        <p ng-show="db.up=='true'"><a href="admin">Войти от админа</a></p>
+        <p ng-show="db.up=='false'" style="color:#a94442;">Неудалось подключиться к базе</p>
+        <form name="dbForm" novalidate ng-submit="submit()">
+            <div>
+                <label>IP-адрес</label><br>
+                <input class="form-control" required type="text" ng-model="db.ip"/>
+            </div>
+            <div>
+                <label>Порт</label><br>
+                <input class="form-control" required type="text" ng-model="db.port"/>
+            </div>
+            <div>
+                <label>Имя базы данных</label><br>
+                <input class="form-control" required type="text" ng-model="db.dbname"/>
+            </div>
+            <div>
+                <label>Пользватель</label><br>
+                <input class="form-control" required type="text" ng-model="db.username"/>
+            </div>
+            <div>
+                <label>Пароль</label><br>
+                <input class="form-control" required type="text" ng-model="db.password"/>
+            </div>
+            <br>
+            <button class="btn btn-primary" ng-click="apply()">
+                Применить и сохранить
+            </button>
+            <button class="btn btn-primary" ng-click="save()">
+                Сохранить
+            </button>
+            <button class="btn btn-primary" ng-click="update()">
+                Обновить структуру базы
+            </button>
+            <button class="btn btn-primary" ng-click="test()">
+                Проверить доступность
+            </button>
+            <div class="help-block" style="color:#a94442;">
+                <p ng-show="success" style="color:green">Новые настройки были применены.</p>
+                <p ng-show="testSuccess" style="color:green">Удалось подключиться к базе с заданными настройками.</p>
+                <p ng-show="saveSuccess" style="color:green">Настройки сохранены.</p>
+                <p ng-show="saveFailed">Не удалось сохранить настройки.</p>
+                <p ng-show="updateSuccess" style="color:green">Структура базы обновлена.</p>
+                <p ng-show="updateFailed">Не удалось обновить базу: {{errorMessage}}.</p>
+                <p ng-show="failed">Неудалось подключиться к базе с заданными настройками.</p>
+                <p ng-show="testFailed">Неудалось подключиться к базе с заданными настройками.</p>
+            </div>
+        </form>
+</body>
+</html>

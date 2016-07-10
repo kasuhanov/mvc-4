@@ -1,0 +1,14 @@
+<h3>Избранные закупки:</h3>
+<div class="main-block">
+    <div class="purchase-main-block">
+        <div ng-show="authenticated&&purchases.length>0">
+            <div purchases></div>
+        </div>
+        <div ng-show="authenticated&&purchases.length==0" class="centered">
+            <h3>Вы еще не добавили закупки в избранное</h3>
+        </div>
+        <div ng-show="!authenticated||authority =='ROLE_ADMIN'" class="centered">
+            <h4>Войдите в систему, чтобы просмотреть данную страницу</h4>
+        </div>
+    </div>
+</div>

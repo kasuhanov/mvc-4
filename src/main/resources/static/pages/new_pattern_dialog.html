@@ -1,0 +1,30 @@
+<div>
+    <div class="modal-header">
+        <h4 class="modal-title">Новый паттерн</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline form" name="patternForm" novalidate ng-submit="submit()">
+            <div>
+                <label>Паттерн</label><br>
+                <input class="form-control" required name="pattern" type="text" ng-model="newPattern.pattern"/>
+            </div>
+            <div>
+                <label>Категории</label><br>
+                <select multiple="" class="form-control" ng-model="newPattern.categories" title="category">
+                    <option ng-repeat="category in categories" value="{{category.id}}">
+                        {{category.name}}({{category.purchaseCount}})
+                    </option>
+                </select>
+            </div>
+            <br>
+            <button class="btn btn-primary" type="submit" ng-disabled="patternForm.pattern.$invalid">
+                Добавить
+            </button>
+            <button class="btn btn-primary" type="button" ng-click="closeDialog()">Закрыть</button>
+            <div class="help-block" style="color:#a94442;">
+                <p ng-show="failed">Неудлось добавить паттерн.</p>
+                <p ng-show="success" style="color:green">Паттерн добавлен.</p>
+            </div>
+        </form>
+    </div>
+</div>

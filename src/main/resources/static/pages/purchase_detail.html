@@ -1,0 +1,222 @@
+<h3>{{purchase.purchaseCodeName}} №{{purchase.id}}
+    <button class="btn btn-sm btn-default" ng-show="authenticated&&authority =='ROLE_USER'" ng-click="addToFavorites()">
+        <span ng-show="!fav" class="glyphicon glyphicon-star"></span>
+        <span ng-show="fav" class="glyphicon glyphicon-star-empty"></span>
+        <span ng-show="!fav"> Добавить в избранное</span>
+        <span ng-show="fav"> Убрать из избранного</span>
+    </button>
+</h3>
+<div class="main-block">
+    <div class="purchase-main-block">
+        <h4 class="prottitle">{{purchase.name}}</h4>
+        <div class="grey-line"></div>
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+                <tr>
+                    <td align="left" valign="top" width="50%"><strong>Заказчик</strong></td>
+                    <td align="left" valign="top" width="50%">
+                        <a href="#/search/?hideFilter=true&customer={{purchase.customer.id}}">{{purchase.customer.name}}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><div class="grey-line-sm"></div></td>
+                    <td><div class="grey-line-sm"></div></td>
+                </tr>
+                <tr ng-show="purchase.startPrice">
+                    <td align="left" valign="top" width="50%"><strong>Начальная максимальная цена</strong></td>
+                    <td align="left" valign="top" width="50%">
+                        {{purchase.startPrice  | currency:""}} {{purchase.lots[0].currency}}
+                    </td>
+                </tr>
+                <tr ng-show="purchase.startPrice">
+                    <td><div class="grey-line-sm"></div></td>
+                    <td><div class="grey-line-sm"></div></td>
+                </tr>
+                <tr>
+                    <td align="left" valign="top" width="50%"><strong>Состояние</strong></td>
+                    <td align="left" valign="top" width="50%">
+                        <span ng-show="purchase.completed">Завершенная</span>
+                        <span ng-show="!purchase.completed">Незавершенная</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><div class="grey-line-sm"></div></td>
+                    <td><div class="grey-line-sm"></div></td>
+                </tr>
+                <tr ng-show="purchase.publicationDate">
+                    <td align="left" valign="top" width="50%"><strong>Дата размещения извещения</strong></td>
+                    <td align="left" valign="top" width="50%">
+                        {{purchase.publicationDate | date:'dd.MM.yyyy'}}
+                    </td>
+                </tr>
+                <tr ng-show="purchase.publicationDate">
+                    <td><div class="grey-line-sm"></div></td>
+                    <td><div class="grey-line-sm"></div></td>
+                </tr>
+                <tr ng-show="categories.length > 0">
+                    <td align="left" valign="top" width="50%"><strong>Категории</strong></td>
+                    <td align="left" valign="top" width="50%">
+                        <span ng-repeat="category in categories"><a href="#/search/?hideFilter=true&category={{category.id}}">{{category.name}}<span ng-show="!$last">, </span></a></span>
+                    </td>
+                </tr>
+                <tr ng-show="categories.length > 0">
+                    <td><div class="grey-line-sm"></div></td>
+                    <td><div class="grey-line-sm"></div></td>
+                </tr>
+                <tr ng-show="purchase.fz">
+                    <td align="left" valign="top" width="50%"><strong>Федеральный закон</strong></td>
+                    <td align="left" valign="top" width="50%">
+                        {{purchase.fz}}
+                    </td>
+                </tr>
+                <tr ng-show="purchase.fz">
+                    <td><div class="grey-line-sm"></div></td>
+                    <td><div class="grey-line-sm"></div></td>
+                </tr>
+                <tr ng-show="purchase.electronicPlaceName">
+                    <td align="left" valign="top" width="50%"><strong>Электронная торговая площадка</strong></td>
+                    <td align="left" valign="top" width="50%">
+                        <a href="{{purchase.electronicPlaceUrl}}" target="_blank">{{purchase.electronicPlaceName}}</a>
+                    </td>
+                </tr>
+                <tr ng-show="purchase.electronicPlaceName">
+                    <td><div class="grey-line-sm"></div></td>
+                    <td><div class="grey-line-sm"></div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row detail-select">
+        <div class="col-md-3 detail-select-item" ng-class="{'detail-select-item-selected':order}" ng-show="purchase.type!='EP'">
+            <a href="" ng-click="detailItemClick('order')">Порядок проведения</a>
+        </div>
+        <div class="col-md-3 detail-select-item" ng-class="{'detail-select-item-selected':lots}">
+            <a href="" ng-click="detailItemClick('lots')">Предмет контракта</a>
+        </div>
+        <div class="col-md-2 detail-select-item" ng-class="{'detail-select-item-selected':documentation}" ng-show="purchase.document.length">
+            <a href="" ng-click="detailItemClick('documentation')">Документация</a>
+        </div>
+        <div class="col-md-3 detail-select-item" ng-class="{'detail-select-item-selected':contact}">
+            <a href="" ng-click="detailItemClick('contact')">Контактная информация</a>
+        </div>
+    </div>
+    <div class="detail-item" ng-show="order && purchase.type!='EP'">
+        <table class="table table-condensed">
+            <tbody>
+            <tr ng-show="purchase.submissionCloseDate || purchase.submissionCloseDate">
+                <td>Окончание подачи заявок</td>
+                <td>{{purchase.submissionCloseDate | date:'dd.MM.yyyy'}}</td>
+                <td class="col-md-7"></td>
+            </tr>
+            <tr ng-show="purchase.examinationDateTime || purchase.examinationPlace">
+                <td>Рассмотрение заявок</td>
+                <td>{{purchase.examinationDateTime | date:'dd.MM.yyyy'}}</td>
+                <td>{{purchase.examinationPlace}}</td>
+            </tr>
+            <tr ng-show="purchase.envelopeOpeningTime || purchase.envelopeOpeningPlace">
+                <td>Вскрытие конвертов</td>
+                <td>{{purchase.envelopeOpeningTime | date:'dd.MM.yyyy'}}</td>
+                <td>{{purchase.envelopeOpeningPlace}}</td>
+            </tr>
+            <tr ng-show="purchase.summingupTime || purchase.summingupPlace">
+                <td>Подведение итогов</td>
+                <td>{{purchase.summingupTime | date:'dd.MM.yyyy'}}</td>
+                <td>{{purchase.summingupPlace}}</td>
+            </tr>
+            <tr ng-show="purchase.quotationExaminationTime || purchase.quotationExaminationPlace">
+                <td>Окончание рассмотрения заявок</td>
+                <td>{{purchase.quotationExaminationTime | date:'dd.MM.yyyy'}}</td>
+                <td>{{purchase.quotationExaminationPlace}}</td>
+            </tr>
+            <tr ng-show="purchase.auctionTime || purchase.auctionPlace">
+                <td>Проведение аукциона</td>
+                <td>{{purchase.auctionTime | date:'dd.MM.yyyy'}}</td>
+                <td>{{purchase.auctionPlace}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <p ng-show="purchase.submissionOrder">
+            Порядок подачи заявок : {{purchase.submissionOrder}}
+        </p>
+        <p ng-show="purchase.submissionPlace">
+            Место подачи заявок : {{purchase.submissionPlace}}
+        </p>
+    </div>
+    <div class="detail-item" ng-show="documentation && purchase.document.length">
+        <p ng-show="purchase.documentationDeliveryPlace">
+            Место предоставления документации:
+            <span ng-bind-html="purchase.documentationDeliveryPlace | linky:'_blank'"></span>
+        </p>
+        <p ng-show="purchase.documentationDeliveryProcedure">
+            Процедура предоставления документации:
+            <span ng-bind-html="purchase.documentationDeliveryProcedure | linky:'_blank'"></span>
+        </p>
+        <ul>
+            <li ng-repeat="document in purchase.document"><a href="{{document.url}}" target="_blank">{{document.name}}</a></li>
+        </ul>
+    </div>
+    <div class="detail-item" ng-show="contact">
+        <p ng-show="purchase.contactLastName">Контактное лицо: {{purchase.contactLastName}} {{purchase.contactFirstName}}  {{purchase.contactMiddleName}}</p>
+        <p ng-show="purchase.contactPhone">Телефон: {{purchase.contactPhone}}</p>
+        <p ng-show="purchase.contactEmail">
+            Адрес электронной почты:
+            <span ng-bind-html="purchase.contactEmail | linky:'_blank'"></span>
+        </p>
+    </div>
+    <div class="detail-item" ng-show="lots">
+    	<h4>Предмет контракта</h4>
+    	<div ng-repeat="lot in purchase.lots">
+    		<p ng-show="lot.name">Наименование: {{lot.name}}</p>
+    		<p ng-show="lot.startPrice">Начальная максимальная цена: {{lot.startPrice | currency:""}} {{lot.currency}}</p>
+    		<p ng-show="lot.address">Место поставки: {{lot.address}}</p>
+    		<p ng-show="lot.forSMP!=null">Для СМП: <span ng-show="lot.forSMP">Да</span><span ng-show="!lot.forSMP">Нет</span></p>
+    	</div>
+        <h4>Позиции договора:</h4>
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="col-md-5">Наименование</th>
+                    <th ng-show="purchase.lots[0].lotItems[0].codeOkdp" class="col-md-1">ОКДП</th>
+                    <th ng-show="purchase.lots[0].lotItems[0].codeOkved" class="col-md-1">ОКВЭД</th>
+                    <th ng-show="purchase.lots[0].lotItems[0].codeOkpd2" class="col-md-1">ОКПД2</th>
+                    <th ng-show="purchase.lots[0].lotItems[0].codeOkpd2&&authority =='ROLE_ADMIN'" class="col-md-1"></th>
+                    <th ng-show="purchase.lots[0].lotItems[0].price" class="col-md-1">Цена, руб.</th>
+                    <th ng-show="purchase.lots[0].lotItems[0].codeOkved2" class="col-md-1">ОКВЭД2</th>
+                    <th class="col-md-1">Количество</th>
+                    <th class="col-md-1">Ед. изм.</th>
+                    <th ng-show="purchase.lots[0].lotItems[0].sum" class="col-md-1">Стоимость, руб.</th>
+                    <th class="col-md-3" ng-show="purchase.fz=='223'">Доп. информация</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="lot in purchase.lots">
+                <tr ng-repeat="lotItem in lot.lotItems">
+                    <td>{{lot.name}}</td>
+                    <td ng-show="purchase.lots[0].lotItems[0].codeOkdp">{{lotItem.codeOkdp}}</td>
+                    <td ng-show="purchase.lots[0].lotItems[0].codeOkved">{{lotItem.codeOkved}}</td>
+                    <td ng-show="purchase.lots[0].lotItems[0].codeOkpd2">{{lotItem.codeOkpd2}}</td>
+                    <td ng-show="purchase.lots[0].lotItems[0].codeOkpd2&&authority =='ROLE_ADMIN'" class="col-md-1">
+                        <button class="btn btn-success btn-xs glyphicon glyphicon-pencil" ng-click="open(lotItem.codeOkpd2)"></button>
+                    </td>
+                    <td ng-show="purchase.lots[0].lotItems[0].price" class="col-md-1">{{lotItem.price | currency:""}}</td>
+                    <td ng-show="purchase.lots[0].lotItems[0].codeOkved2">{{lotItem.codeOkved2}}</td>
+                    <td>{{lotItem.qty}}</td>
+                    <td>{{lotItem.okeiName}}</td>
+                    <td ng-show="purchase.lots[0].lotItems[0].sum" class="col-md-1">{{lotItem.sum | currency:""}}</td>
+                    <td ng-show="purchase.fz=='223'">{{lotItem.additionalInfo}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p ng-show="purchase.contractGuarantee">
+            Обеспечение контракта : {{purchase.contractGuarantee | currency:""}} {{purchase.lots[0].currency}}
+        </p>
+        <p ng-show="purchase.applicationGuarantee">
+            Обеспечение заявки: {{purchase.applicationGuarantee | currency:""}} {{purchase.lots[0].currency}}
+        </p>
+        <div ng-show="purchase.preferenses.length > 0">
+            <h4>Преференции:</h4>
+            <p ng-repeat="pref in purchase.preferenses">{{pref.value}} : {{pref.name}}</p>
+        </div>
+    </div>
+</div>

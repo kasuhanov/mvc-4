@@ -1,0 +1,65 @@
+<div>
+    <table id="purchase_table" class="table">
+        <thead>
+        <tr>
+            <th class="col-md-2">
+                <span class="atabl">
+                     <a href="" ng-click="changeOrder('id')">№</a>
+                </span>
+                <span ng-show="orderby=='id'">
+                    <span ng-show="order=='asc'" class="glyphicon glyphicon-triangle-bottom"></span>
+                    <span ng-show="order=='desc'" class="glyphicon glyphicon-triangle-top"></span>
+                </span>
+            </th>
+            <th class="col-md-6">
+                <span class="atabl">
+                     <a href="" ng-click="changeOrder('name')">Наименование</a>
+                </span>
+                <span ng-show="orderby=='name'">
+                    <span ng-show="order=='asc'" class="glyphicon glyphicon-triangle-bottom"></span>
+                    <span ng-show="order=='desc'" class="glyphicon glyphicon-triangle-top"></span>
+                </span>
+            </th>
+            <th class="col-md-2">
+                <span class="atabl">
+                     <a href="" ng-click="changeOrder('startPrice')">Начальная цена</a>
+                </span>
+                <span ng-show="orderby=='startPrice'">
+                    <span ng-show="order=='asc'" class="glyphicon glyphicon-triangle-bottom"></span>
+                    <span ng-show="order=='desc'" class="glyphicon glyphicon-triangle-top"></span>
+                </span>
+            </th>
+            <th class="col-md-3">
+                <span class="atabl">
+                     <a href="" ng-click="changeOrder('submissionCloseDate')">Окончание подачи заявок</a>
+                </span>
+                <span ng-show="orderby=='submissionCloseDate'">
+                    <span ng-show="order=='asc'" class="glyphicon glyphicon-triangle-bottom"></span>
+                    <span ng-show="order=='desc'" class="glyphicon glyphicon-triangle-top"></span>
+                </span>
+            </th>
+            <th class="col-md-1">
+                <span class="atabl">
+                     <a href="" ng-click="changeOrder('purchaseCodeName')">Тип</a>
+                 </span>
+                <span ng-show="orderby=='purchaseCodeName'">
+                    <span ng-show="order=='asc'" class="glyphicon glyphicon-triangle-bottom"></span>
+                    <span ng-show="order=='desc'" class="glyphicon glyphicon-triangle-top"></span>
+                </span>
+            </th>
+        </tr>
+        </thead>
+        <tbody class="purchase-table-body">
+        <tr ng-repeat="purchase in purchases">
+            <td>{{purchase.id}}</td>
+            <td><a href="#/purchase/{{purchase.id}}">{{purchase.name}}</a></td>
+            <td>{{purchase.startPrice | currency:""}}  {{purchase.lots[0].currency}}</td>
+            <td>{{purchase.submissionCloseDate | date:'dd.MM.yyyy'}}</td>
+            <td><span title="{{purchase.purchaseCodeName}}">{{purchase.type}}</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="purchase-table-pagination">
+        <div uib-pagination class="centered" boundary-links="true" max-size="10" num-pages="numPages" total-items="totalItems" items-per-page="pageSize" ng-model="currentPage"  ng-change="pageChanged()" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></div>
+    </div>
+</div>

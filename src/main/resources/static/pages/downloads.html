@@ -1,0 +1,112 @@
+<h3>Загрузки:</h3>
+<div class="main-block">
+    <div class="purchase-main-block">
+        <h4>В базе данных закупки опубликованные с {{first| date:'dd.MM.yyyy'}} по {{last| date:'dd.MM.yyyy'}}</h4>
+        <div>
+            <button class="btn btn-default" ng-click="download()">
+                Выполнить загрузку
+                <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="loading"></span>
+            </button>
+            <button class="btn btn-default" ng-click="notify()">
+                Выслать уведомления о приблежинии срока окончания подачи заявок
+                <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="notifing"></span>
+            </button>
+            <br/>
+            <br/>
+            <form class="form-inline form" novalidate ng-submit="submit()">
+                <div>
+                    <label>Загрузить начиная с даты:</label><br/>
+                    <div class="input-group">
+                        <input ng-model="date" type="text" class="form-control" uib-datepicker-popup="dd.MM.yyyy"
+                               is-open="calendar.open" datepicker-options="dateOptions" close-text="Закрыть"
+                               current-text="Сегодня" clear-text="Очистить" show-weeks="false" ng-required="true"/>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                    </div>
+                </div><br/>
+                <button class="btn btn-default" type="submit" ng-disabled="date==null">
+                    Загрузить
+                    <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="loadingSinceDate"></span>
+                </button>
+            </form>
+            <br/>
+            <form class="form-inline form"  novalidate ng-submit="upload()">
+                <div>
+                    <label>Файл:</label><br/>
+                    <div class="input-group">
+                        <input type="file" file-model="file" accept="text/xml" ng-required="true"/>
+                    </div>
+                </div><br/>
+                <button class="btn btn-default" type="submit">
+                    Загрузить
+                </button>
+                <div class="help-block" style="color:#a94442;">
+                    <p ng-show="uploadFailed">При обработке запроса произошла ошибка.</p>
+                </div>
+            </form>
+            <div class="help-block" style="color:#a94442;">
+                <p ng-show="downloadFailed">При обработке запроса произошла ошибка.</p>
+            </div>
+        </div>
+        <div>
+            <p ng-show="loading_downloads">
+                Загружается информация о зарузках
+                <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+            </p>
+            <div ng-repeat="download in downloads | orderBy:'-date'">
+                <p>Дата выполнения загрузки: {{download.date | date:'dd.MM.yyyy HH:mm:ss'}}</p>
+                <p>Удачно: {{download.succeeded}}</p>
+                <p>С ошибкой: {{download.failed}}</p>
+                <p>Архивов с ошибкой: {{download.failedArchive}}</p>
+                <p ng-show="download.message">Сообщение об ошибке: {{download.message}}</p>
+                <p>
+                    Загруженные архивы:
+                    <button class="btn btn-sm btn-default" ng-click="toggleArch(download)">
+                        <span ng-show="!download.showArch">показать список архивов</span>
+                        <span ng-show="download.showArch">скрыть список архивов</span>
+                        <span ng-show="download.loading_archives" class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                    </button>
+                </p>
+                <p ng-show="download.showArch&&download.ftpArchives.length==0">В загрузке нет архивов</p>
+                <div class="archive" ng-show="download.showArch" ng-repeat="archive in download.ftpArchives | orderBy:'name'">
+                    <p>Имя архива: {{archive.name}}</p>
+                    <p ng-show="archive.status">Удачно: {{archive.succeeded}}</p>
+                    <p ng-show="archive.status&&archive.failed>0">С ошибкой: {{archive.failed}}</p>
+                    <p ng-show="!archive.status">Сообщение об ошибке:{{archive.message}}</p>
+                    <p>
+                        Файлы в архиве:
+                        <button class="btn btn-sm btn-default" ng-click="toggleXml(archive)">
+                            <span ng-show="!archive.showXml">показать список файлов</span>
+                            <span ng-show="archive.showXml">скрыть список файлов</span>
+                        </button>
+                        <button class="btn btn-sm btn-default" ng-click="reloadArchive(archive)">
+                            Перезагрузить
+                            <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="archive.loading"></span>
+                        </button>
+                        <span ng-show="archive.reloadSuccess" style="color:green">Перезаргужено</span>
+                        <span ng-show="archive.reloadFailed" style="color:#a94442;">Произошла ошибка</span>
+                    </p>
+                    <div class="xml_file" ng-show="archive.showXml" ng-repeat="xmlFile in archive.xmlFiles | orderBy:'status'">
+                        <p>Имя файла: {{xmlFile.name}}</p>
+                        <p ng-show="!xmlFile.status">Сообщение об ошибке: {{xmlFile.message}}</p>
+                        <p ng-show="xmlFile.status">
+                            Закупка:
+                            <a href="#/purchase/{{xmlFile.purchase_id}}"> №{{xmlFile.purchase_id}}</a>
+                        </p>
+                        <button class="btn btn-sm btn-default" ng-click="reloadXml(xmlFile)">
+                            Перезагрузить
+                            <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="xmlFile.loading"></span>
+                        </button>
+                        <span ng-show="xmlFile.reloadSuccess" style="color:green">Ok</span>
+                        <span ng-show="xmlFile.reloadFailed" style="color:#a94442;">Произошла ошибка</span>
+                        <br>
+                        <br>
+                    </div>
+                    <br>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>

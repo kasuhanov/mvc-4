@@ -1,0 +1,35 @@
+<div id="category-list">
+    <table  border="0" cellpadding="0" cellspacing="0" width="230" ng-controller="CategoryController">
+        <tbody><tr>
+            <td class="statblock" align="left" bgcolor="#EAEAEA" width="100%"><div class="stitle">Категории</div>
+                <div class="stat">
+                    <table width="100%">
+                        <tbody>
+                            <tr>
+                                <td width="100%">
+                                    <div class="category"><a href="#/search/?hideFilter=true&completed=false">Незавершенные закупки({{counts.uncompleted}})</a></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <div class="category"><a href="#/search/?hideFilter=true">Все закупки({{counts.all}})</a></div>
+                                </td>
+                            </tr>
+                            <tr ng-repeat="category in categories">
+                                <td width="100%">
+                                    <div class="category"><a href="#/search/?hideFilter=true&category={{category.id}}">{{category.name}}({{category.count}})</a></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <div class="category"><a href="#/search/?hideFilter=true&category=-1">Прочие закупки({{counts.other}})</a></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

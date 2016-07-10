@@ -1,0 +1,68 @@
+<div>
+    <div class="modal-header">
+        <h4 class="modal-title">ОКПД2 {{okpd}}</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline form" name="patternForm" novalidate ng-submit="submit()">
+            <h4>Новый паттерн</h4>
+            <div>
+                <label>Паттерн</label><br>
+                <input class="form-control" required name="pattern" type="text" ng-model="newPattern.pattern"/>
+            </div>
+            <div>
+                <label>Категории</label><br>
+                <select multiple="" class="form-control" ng-model="newPattern.categories" title="category">
+                    <option ng-repeat="category in categories" value="{{category.id}}">
+                        {{category.name}}({{category.purchaseCount}})
+                    </option>
+                </select>
+            </div>
+            <br>
+            <button class="btn btn-primary" type="submit" ng-disabled="patternForm.pattern.$invalid">
+                Добавить
+            </button>
+            <div class="help-block" style="color:#a94442;">
+                <p ng-show="failed">Неудлось добавить паттерн.</p>
+                <p ng-show="success" style="color:green">Паттерн добавлен.</p>
+            </div>
+        </form>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-1">ОКПД 2 паттерн</th>
+                <th class="col-md-5">Категории</th>
+                <th class="col-md-1"></th>
+                <th class="col-md-5"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="pattern in patterns">
+                <td><span title="{{pattern.pattern}}">{{pattern.pattern}}</span></td>
+                <td>
+                    <p ng-repeat="category in pattern.categories">
+                        <a href="#/category/{{category.id}}">{{category.name}}
+                        </a>
+                    </p>
+                </td>
+                <td>
+                    <p ng-repeat="category in pattern.categories">
+                        <button class="btn btn-xs btn-danger glyphicon glyphicon-minus" ng-click="remove(pattern, category.id)"></button>
+                    </p>
+                </td>
+                <td>
+                    <div>
+                        <select id="category_selector" class="form-control" ng-model="pattern.category" title="category">
+                            <option ng-repeat="category in categories" value="{{category.id}}">
+                                {{category.name}}({{category.purchaseCount}})
+                            </option>
+                        </select>
+                        <button class="btn btn-xs btn-primary glyphicon glyphicon-plus" ng-click="add(pattern,pattern.category)"></button>
+                        <button class="btn btn-xs btn-danger glyphicon glyphicon-remove" ng-click="deletePattern(pattern.id)"></button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" ng-click="closeDialog()">Закрыть</button>
+    </div>
+</div>

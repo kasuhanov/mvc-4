@@ -1,0 +1,37 @@
+<div class="reg-block" id="log_in">
+    <form ng-controller="LoginController" name="logInForm" ng-submit="login()">
+        <div>
+            <div>
+                <p style="margin-bottom: 0">
+                    <img src="img/i-reg.gif" width="22" height="19" alt="">Вход на сайт / <a class="reg" href="#/registration/">Регистрация</a> / <a class="reg" href="#/recovery-email/">Восстановление пароля</a>
+                </p>
+            </div>
+            <div>
+                <div style="position: fixed;z-index:101;bottom: 30px; right: 30px; font-size: large">
+                    <uib-alert style="width: 350px" type="danger" close="failed=!failed" ng-show="failed">Неверный логин или пароль</uib-alert>
+                </div>
+                <table border="0" cellpadding="0" cellspacing="0" width="325">
+                    <tbody><tr>
+                        <td align="left">
+                            <img src="img/x.gif" alt="" height="1" width="5">
+                        </td>
+                        <td align="left" width="50%">
+                            <input class="finput" type="text" placeholder="Почтовый ящик" ng-model="user.email" name="email" required/>
+                        </td>
+                        <td align="left">
+                            <img src="img/x.gif" alt="" height="1" width="1">
+                        </td>
+                        <td align="left" width="50%">
+                            <input class="finput" type="password" placeholder="Пароль" ng-model="user.password" name="password" required/>
+                        </td>
+                        <td align="left">
+                            <input ng-show="!loading" src="img/i-agree24-1.gif" onmouseover="this.src='img/i-agree24-2.gif'"
+                                   onmouseout="this.src='img/i-agree24-1.gif'"  name="ImageOk" id="ImageOk" height="24" type="image" width="24">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>

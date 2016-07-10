@@ -1,0 +1,27 @@
+<div class="menu">
+    <div ng-show="authenticated">
+        <div ng-show="authority =='ROLE_USER'">
+            <img src="img/rd.gif" alt="" height="9" align="absmiddle" border="0" vspace="8" width="25">
+            <a href="#/fav/">Избранные</a><br>
+            <img src="img/rd.gif" alt="" height="9" align="absmiddle" border="0" vspace="8" width="25">
+            <a href="#/subscribe/">Подписка на рассылку</a>
+        </div>
+        <div ng-show="authority =='ROLE_ADMIN'">
+            <img src="img/rd.gif" alt="" height="9" align="absmiddle" border="0" vspace="8" width="25">
+            <a href="#/admin/pattern/">Паттерны</a>
+            <br>
+            <img src="img/rd.gif" alt="" height="9" align="absmiddle" border="0" vspace="8" width="25">
+            <a href="#/downloads/">Загрузки</a>
+            <br>
+            <img src="img/rd.gif" alt="" height="9" align="absmiddle" border="0" vspace="8" width="25">
+            <a href="#/properties/">Настройки</a>
+            <br>
+            <img src="img/rd.gif" alt="" height="9" align="absmiddle" border="0" vspace="8" width="25">
+            <a href="logfile" target="_blank">Лог</a>
+            <br>
+            <img src="img/rd.gif" alt="" height="9" align="absmiddle" border="0" vspace="8" width="25">
+            <a href="health" target="_blank">Состояние приложения</a>
+            <br>
+        </div>
+    </div>
+</div>

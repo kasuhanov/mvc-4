@@ -1,0 +1,18 @@
+<h3>Настройки:</h3>
+<div class="main-block">
+    <div class="purchase-main-block">
+        <button class="btn btn-default" ng-click="save()">
+            Сохранить настройки
+        </button>
+        <a href="db.html" target="_blank">Настройки базы данных</a>
+        <br>
+        <br>
+        <form class="form-inline form" novalidate>
+            <div ng-repeat="(key,value) in properties">
+                <label>{{key}}</label><br>
+                <input style="width:100%" class="form-control" type="text" ng-model="properties[key]"/>
+                <br>
+             </div>
+        </form>
+    </div>
+</div>

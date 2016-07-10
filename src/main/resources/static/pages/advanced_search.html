@@ -1,0 +1,231 @@
+<h3 class="search-title centered" ng-show="category">
+    {{category.name}}
+</h3>
+<h3 class="search-title centered" ng-show="search.category==-1">
+    Прочие
+</h3>
+<div class="main-block">
+    <div class="purchase-main-block" ng-show="customer">
+        <h4 class="prottitle">{{customer.name}}</h4>
+        <div class="grey-line"></div>
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+            <tr ng-show="customer.id">
+                <td align="left" valign="top" width="50%"><strong>ИНН</strong></td>
+                <td align="left" valign="top" width="50%">
+                    {{customer.id}}
+                </td>
+            </tr>
+            <tr ng-show="customer.id">
+                <td><div class="grey-line-sm"></div></td>
+                <td><div class="grey-line-sm"></div></td>
+            </tr>
+            <tr ng-show="customer.email">
+                <td align="left" valign="top" width="50%"><strong>Электронный адрес</strong></td>
+                <td align="left" valign="top" width="50%">
+                    <span ng-bind-html="customer.email | linky:'_blank'"></span>
+                </td>
+            </tr>
+            <tr ng-show="customer.email">
+                <td><div class="grey-line-sm"></div></td>
+                <td><div class="grey-line-sm"></div></td>
+            </tr>
+            <tr ng-show="customer.phone">
+                <td align="left" valign="top" width="50%"><strong>Телефон</strong></td>
+                <td align="left" valign="top" width="50%">
+                    {{customer.phone}}
+                </td>
+            </tr>
+            <tr ng-show="customer.phone">
+                <td><div class="grey-line-sm"></div></td>
+                <td><div class="grey-line-sm"></div></td>
+            </tr>
+            <tr ng-show="customer.fax">
+                <td align="left" valign="top" width="50%"><strong>Факс</strong></td>
+                <td align="left" valign="top" width="50%">
+                    {{customer.fax}}
+                </td>
+            </tr>
+            <tr ng-show="customer.fax">
+                <td><div class="grey-line-sm"></div></td>
+                <td><div class="grey-line-sm"></div></td>
+            </tr>
+            <tr ng-show="customer.postalAddress">
+                <td align="left" valign="top" width="50%"><strong>Почтовый Адрес</strong></td>
+                <td align="left" valign="top" width="50%">
+                    {{customer.postalAddress}}
+                </td>
+            </tr>
+            <tr ng-show="customer.postalAddress">
+                <td><div class="grey-line-sm"></div></td>
+                <td><div class="grey-line-sm"></div></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row detail-select" style="margin-top: 5px">
+        <div class="col-md-2 detail-select-item-round" ng-click="toggleFilter()">
+            <span class="atabl" style="font-size: 12px">
+                <a href="" >
+                    <span ng-show="hideFilter">Показать фильтр</span>
+                    <span ng-show="!hideFilter">Скрыть фильтр</span>
+                </a>
+            </span>
+        </div>
+        <div class="col-md-2 detail-select-item" style="font-size: 12px" ng-show="totalItems!=100000">
+            Найдено: <strong>{{totalItems}}</strong>
+        </div>
+        <div class="col-md-8 detail-select-item" style="font-size: 12px">
+            <span ng-show="search.id||search.purchaseName||search.startDate||search.endDate||search.minPrice||search.maxPrice||search.type||search.fz||search.completed">
+                <strong>Текущий фильтр: </strong>
+            </span>
+            <span ng-show="search.id">Номер: {{search.id}}</span>
+            <span ng-show="search.purchaseName">Наименование: {{search.purchaseName}}</span>
+            <span ng-show="search.startDate || search.endDate">
+                Окончание подачи заявок
+                <span ng-show="search.startDate"> c: {{search.startDate | date:'dd.MM.yyyy'}}</span>
+                <span ng-show="search.endDate"> по: {{search.endDate | date:'dd.MM.yyyy'}}</span>
+            </span>
+            <span ng-show="search.minPrice || search.maxPrice">
+                МНЦ
+                <span ng-show="search.minPrice"> от: {{search.minPrice}}</span>
+                <span ng-show="search.maxPrice"> до: {{search.maxPrice}}</span>
+            </span>
+            <span ng-show="search.type">
+                        <span ng-show="search.type=='AE'">Аукцион в электронном виде</span>
+                        <span ng-show="search.type=='EP'">Закупка у единственного поставщика</span>
+                        <span ng-show="search.type=='OA'">Открытый аукцион</span>
+                        <span ng-show="search.type=='OK'">Открытый конкурс</span>
+                        <span ng-show="search.type=='OKD'">Двухэтапный конкурс</span>
+                        <span ng-show="search.type=='OKOU'">Конкурс с ограниченным участием</span>
+                        <span ng-show="search.type=='ZA'">Закрытый аукцион</span>
+                        <span ng-show="search.type=='ZK'">Запрос котировок</span>
+                        <span ng-show="search.type=='ZP'">Запрос предложений</span>
+            </span>
+            <span ng-show="search.fz">
+                ФЗ: {{search.fz}}
+            </span>
+            <span ng-show="search.completed=='true'">Завершенные</span>
+            <span ng-show="search.completed=='false'">Незавершенные</span>
+        </div>
+    </div>
+    <form uib-collapse="hideFilter" class="form-inline form" id="search-form" name="SearchForm" novalidate>
+        <div class="row" id="first_row">
+            <div class="col-md-6">
+                <label>Номер закупки</label><br/>
+                <input type="text" ng-model="newSearch.id"/>
+                <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="newSearch.id=null">
+            </div>
+            <div class="col-md-6">
+                <label>Наименование закупки</label><br/>
+                <input type="text" ng-model="newSearch.purchaseName"/>
+                <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="newSearch.purchaseName=null">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="float: left;padding-right: 10px" id="second-row-first">
+                    <label>Максимальная начальная цена</label><br/>
+                    от&nbsp;
+                    <input type="text" ng-model="newSearch.minPrice"/>
+                    <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="newSearch.minPrice=null">
+                    до&nbsp;
+                    <input type="text" ng-model="newSearch.maxPrice"/>
+                    <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="newSearch.maxPrice=null">
+                </div>
+                <div id="second-row-second">
+                    <label>Дата окончания подачи заявок</label><br/>
+                    <div style="float: left" class="input-group">
+                        <span>с&nbsp;&nbsp;</span>
+                        <input ng-model="newSearch.startDate" type="text"  uib-datepicker-popup="dd.MM.yyyy" ng-model="dt1"
+                               is-open="calendar1.open" datepicker-options="dateOptions" close-text="Закрыть"
+                               current-text="Сегодня" clear-text="Очистить" show-weeks="false" ng-required="true"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default calendar-btn" type="button" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                    <div style="float: left" class="input-group">
+                         <span>&nbsp;&nbsp;по&nbsp;&nbsp;</span>
+                        <input  ng-model="newSearch.endDate" type="text" uib-datepicker-popup="dd.MM.yyyy" ng-model="dt2"
+                                is-open="calendar2.open" datepicker-options="dateOptions" close-text="Закрыть"
+                                current-text="Сегодня" clear-text="Очистить" show-weeks="false" ng-required="true"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default calendar-btn" type="button" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="row">
+            <div class="col-md-12">
+                <div style="float: left;padding-right: 10px">
+                    <label>Вид закупки</label><br/>
+                    <select ng-model="newSearch.type">
+                        <option value="">Любой</option>
+                        <option value="AE">Аукцион в электронном виде</option>
+                        <option value="EP">Закупка у единственного поставщика</option>
+                        <option value="OA">Открытый аукцион</option>
+                        <option value="OK">Открытый конкурс</option>
+                        <option value="OKD">Двухэтапный конкурс</option>
+                        <option value="OKOU">Конкурс с ограниченным участием</option>
+                        <option value="ZA">Закрытый аукцион</option>
+                        <option value="ZK">Запрос котировок</option>
+                        <option value="ZP">Запрос предложений</option>
+                    </select>
+                    <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="newSearch.type=null">
+                </div>
+                <div style="float: left;padding-right: 10px">
+                    <label>Категория</label><br/>
+                    <select ng-model="newSearch.category">
+                        <option value="">Любая</option>
+                        <option ng-repeat="category in categories" value="{{category.id}}">
+                            {{category.name}}({{category.purchaseCount}})
+                        </option>
+                        <option value="-1">Прочие</option>
+                    </select>
+                    <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="newSearch.category=null">
+                </div>
+                <div style="float: left;padding-right: 10px">
+                    <label>Завершенная закупка</label><br/>
+                    <select ng-model="newSearch.completed">
+                        <option value="">Любая</option>
+                        <option value="true">Да</option>
+                        <option value="false">Нет</option>
+                    </select>
+                    <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="newSearch.completed=null">
+                </div>
+                <div style="float: left;padding-right: 10px">
+                    <label>Закон</label><br/>
+                    <select ng-model="newSearch.fz">
+                        <option value="">Любой</option>
+                        <option value="44">44</option>
+                        <option value="223">223</option>
+                    </select>
+                    <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="newSearch.fz=null">
+                </div>
+            </div>
+		</div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Заказчик</label><br/>
+                <span>
+                    <a href="#/customer/{{customer.id}}" ng-show="customer" style="margin-right: 10px">{{customer.name}}</a>
+                    <span class="atabl">
+                        <a href="" ng-click="openCustomerDialog()">Выбрать заказчика из справочнка оргаизаций</a>
+                    </span>
+                </span>
+                <img class="finger" src="img/b-clear.gif" width="20" height="20" style="margin-bottom: 3px;" ng-click="customer=null;newSearch.customer=null">
+            </div>
+        </div>
+        <span class="atabl"><a href="" ng-click="submit()">Применить</a></span>
+        <span style="padding-left: 10px" class="atabl"><a href="" ng-click="clear()">Очистить</a></span>
+	</form>
+    <div ng-show="result" style="margin-top:7px">
+        <div class="purchase-main-block">
+            <div purchases ng-show="totalItems"></div>
+            <div ng-hide="totalItems" class="centered">
+                <h4>Ничего не найдено</h4>
+            </div>
+        </div>
+    </div>
+</div>
