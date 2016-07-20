@@ -1,14 +1,17 @@
 package su.asgor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
-
-import su.asgor.config.gson.Exclude;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "category")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(value = "purchases")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator="categoty_seq_gen")
@@ -16,17 +19,17 @@ public class Category {
     private long id;
     private String name;
     @ManyToMany(mappedBy="categories", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @Exclude
+    @JsonIgnore
     private List<Purchase> purchases = new ArrayList<>();
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "pattern_category",  joinColumns = {
             @JoinColumn(name = "category_id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "pattern_id",
                     nullable = false, updatable = false) })
-    @Exclude
+    @JsonIgnore
     private List<Pattern> patterns = new ArrayList<>();
     @ManyToMany(mappedBy="subscriptions")
-    @Exclude
+    @JsonIgnore
     private List<User> users;
     @Transient
     private boolean subscribed;

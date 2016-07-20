@@ -15,7 +15,7 @@ import java.util.*;
 @Service
 @Transactional
 public class CategoryService {
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired

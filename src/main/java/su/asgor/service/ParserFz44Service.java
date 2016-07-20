@@ -29,7 +29,7 @@ public class ParserFz44Service {
 	private CustomerRepository customerRepository;
     @Autowired
     private CategoryService categoryService;
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public Purchase parse(XMLFile xmlFile) throws Exception {
         String pathToFile = xmlFile.getPath();

@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 @Service
 public class PropertyService {
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private PropertyRepository propertyRepository;
     @Autowired

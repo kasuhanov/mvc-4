@@ -1,11 +1,13 @@
 package su.asgor.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-import su.asgor.config.gson.Exclude;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "preferense")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Preferense {
 	@Id
     private Long id;
@@ -15,7 +17,7 @@ public class Preferense {
     private Double value;
     @ManyToOne
     @JoinColumn(name = "purchase_id")
-    @Exclude
+    @JsonIgnore
     private Purchase purchase;
 
     public Preferense() { }

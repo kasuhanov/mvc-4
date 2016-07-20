@@ -1,13 +1,14 @@
 package su.asgor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
-
-import su.asgor.config.gson.Exclude;
-
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "lot_item")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class LotItem {
 	@Id
     private String id;
@@ -30,7 +31,7 @@ public class LotItem {
     private String additionalInfo;
     @ManyToOne
     @JoinColumn(name = "lot_id")
-    @Exclude
+    @JsonIgnore
     private Lot lot;
     //fz44
     private Double price;

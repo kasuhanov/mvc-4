@@ -1,9 +1,8 @@
 package su.asgor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-
-import su.asgor.config.gson.Exclude;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,8 +17,8 @@ public class Download {
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+    @JsonIgnore
     @OneToMany(mappedBy = "download", cascade=CascadeType.PERSIST)
-    @Exclude
     private List<FTPArchive> ftpArchives = new ArrayList<>();
     @Transient
     private int succeeded = 0;

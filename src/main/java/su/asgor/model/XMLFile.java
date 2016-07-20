@@ -1,8 +1,8 @@
 package su.asgor.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import su.asgor.config.gson.Exclude;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "xml_file")
@@ -14,13 +14,13 @@ public class XMLFile {
     private String name;
     @ManyToOne
     @JoinColumn(name = "purchase_id")
-    @Exclude
+    @JsonIgnore
     private Purchase purchase;
     @Transient
     private String purchase_id;
     @ManyToOne
     @JoinColumn(name = "ftp_archive_id", nullable = false)
-    @Exclude
+    @JsonIgnore
     private FTPArchive ftpArchive;
     private Boolean status;
     @Column(columnDefinition = "TEXT")

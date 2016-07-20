@@ -13,7 +13,7 @@ import java.util.Timer;
 
 @Service
 public class TaskService {
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private PropertyRepository propertyRepository;
     @Autowired

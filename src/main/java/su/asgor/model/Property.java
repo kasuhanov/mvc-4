@@ -1,9 +1,12 @@
 package su.asgor.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "property")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Property{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator="property_seq_gen")
