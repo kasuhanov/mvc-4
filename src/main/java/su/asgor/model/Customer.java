@@ -1,15 +1,13 @@
 package su.asgor.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.persistence.*;
+
+import su.asgor.config.gson.Exclude;
+
 import java.util.List;
 
 @Entity
 @Table(name = "customer")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(value = "purchases")
 public class Customer {
     @Id
     private long id;
@@ -24,6 +22,7 @@ public class Customer {
     @Column(columnDefinition = "TEXT")
     private String fax;
     @OneToMany(mappedBy = "customer")
+    @Exclude
     private List<Purchase> purchases;
     public Customer() { }
 

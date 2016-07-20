@@ -14,19 +14,17 @@ import su.asgor.config.db.util.RoutingDataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "su.asgor.dao")
-//@EnableTransactionManagement
+@EnableJpaRepositories("su.asgor")
+@EnableTransactionManagement
 @ComponentScan("su.asgor")
 public class DatabaseConfig {
 
-    @Bean(destroyMethod = "closeDataSource")
+    @Bean(destroyMethod = "close")
     public RoutingDataSource routingDataSource(){
         RoutingDataSource routingDataSource = new RoutingDataSource();
         routingDataSource.setLenientFallback(false);
         return routingDataSource;
     }
-
-
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -38,17 +36,17 @@ public class DatabaseConfig {
         Properties hibernateProperties = new Properties();
         hibernateProperties.put("hibernate.dialect","org.hibernate.dialect.PostgreSQL9Dialect");
         hibernateProperties.put("hibernate.show_sql","false");
+        hibernateProperties.put("hibernate.enable_lazy_load_no_trans","true");
         //hibernateProperties.put("hibernate.hbm2ddl.auto","update");
 
         em.setJpaProperties(hibernateProperties);
         return em;
     }
 
-    /*
     @Bean
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager manager = new JpaTransactionManager();
         manager.setEntityManagerFactory(entityManagerFactory().getObject());
         return manager;
-    }*/
+    }
 }

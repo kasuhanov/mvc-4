@@ -170,7 +170,7 @@ app.controller('AdvancedSearchController', function($scope, $http, $state, $stat
         $stateParams.customerDialog = true;
         $state.transitionTo($state.current.name,$stateParams,{notify:false});
         $scope.modalInstance = $uibModal.open({
-            templateUrl: '../pages/customer_dialog.html',
+            templateUrl: 'pages/customer_dialog.html',
             controller: 'CustomerDialogController',
             size: 'lg'
         });

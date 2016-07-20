@@ -1,19 +1,17 @@
 package su.asgor.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import javax.persistence.*;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import su.asgor.config.gson.Exclude;
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(value = "purchases")
 public class User implements Principal{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator="user_seq_gen")
@@ -30,7 +28,7 @@ public class User implements Principal{
             indexes = {@Index(name = "user_purchase_index",columnList = "user_id, purchase_id")},
             inverseJoinColumns = { @JoinColumn(name = "purchase_id",
                     nullable = false, updatable = false) })
-    @JsonIgnore
+    @Exclude
     private List<Purchase> favs;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_category",  joinColumns = {
@@ -38,7 +36,7 @@ public class User implements Principal{
             indexes = {@Index(name = "user_category_index",columnList = "user_id, category_id")},
             inverseJoinColumns = { @JoinColumn(name = "category_id",
                     nullable = false, updatable = false) })
-    @JsonIgnore
+    @Exclude
     private List<Category> subscriptions = new ArrayList<>();
 
     public User() { }
@@ -68,7 +66,7 @@ public class User implements Principal{
 	}
 
 	public void setPassword(String password) {
-		//this.password =  new BCryptPasswordEncoder().encode(password);
+		this.password =  new BCryptPasswordEncoder().encode(password);
 	}
 
 	public Boolean getEnabled() {

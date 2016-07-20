@@ -1,4 +1,11 @@
-app.controller('MainController', function($scope, $rootScope, $http){
+app.controller('MainController', function($scope, $rootScope, $http, $state){
+	
+	$scope.toHome = function(){
+		$state.transitionTo($state.current, null, { 
+			  reload: true, inherit: false, notify: true
+			});
+	}
+	
     $rootScope.authenticate = function(credentials, callback) {
         var headers = credentials ? {
             authorization : "Basic "

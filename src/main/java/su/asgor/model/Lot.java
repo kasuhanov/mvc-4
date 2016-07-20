@@ -1,14 +1,13 @@
 package su.asgor.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.persistence.*;
+
+import su.asgor.config.gson.Exclude;
+
 import java.util.List;
 
 @Entity
 @Table(name = "lot")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Lot {
 	@Id
     private String id;
@@ -23,7 +22,7 @@ public class Lot {
     private Boolean forSMP;
     @ManyToOne
     @JoinColumn(name = "purchase_id")
-    @JsonIgnore
+    @Exclude
     private Purchase purchase;
     @OneToMany(mappedBy = "lot", cascade={CascadeType.ALL},fetch = FetchType.LAZY)
     private List<LotItem> lotItems;

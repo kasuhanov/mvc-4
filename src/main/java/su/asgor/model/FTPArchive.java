@@ -1,8 +1,9 @@
 package su.asgor.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
+
+import su.asgor.config.gson.Exclude;
+
 import java.util.Date;
 import java.util.List;
 
@@ -18,12 +19,12 @@ public class FTPArchive {
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date date;
-    @JsonIgnore
     @OneToMany(mappedBy = "ftpArchive", cascade=CascadeType.ALL)
+    @Exclude
     private List<XMLFile> xmlFiles;
     @ManyToOne
     @JoinColumn(name = "download_id", nullable = false)
-    @JsonIgnore
+    @Exclude
     private Download download;
     private Boolean status;
     @Column(columnDefinition = "TEXT")

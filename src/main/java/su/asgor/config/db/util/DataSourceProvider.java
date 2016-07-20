@@ -21,9 +21,9 @@ public class DataSourceProvider{
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private String ip="localhost";
     private String port="5432";
-    private String dbname="database_name";
+    private String dbname="portal";
     private String username="postgres";
-    private String password="password";
+    private String password="system";
     @Autowired
     private ServletContext servletContext;
     private DataSource dataSource;
@@ -74,8 +74,7 @@ public class DataSourceProvider{
 
         ds.setInitialSize(3);
         ds.setMinIdle(3);
-        ds.setMaxIdle(15);
-        ds.setMaxTotal(15);
+        ds.setMaxIdle(8);
         ds.setTimeBetweenEvictionRunsMillis(30000);
         ds.setMinEvictableIdleTimeMillis(60000);
         ds.setTestOnBorrow(true);

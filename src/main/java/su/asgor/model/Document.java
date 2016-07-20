@@ -1,13 +1,11 @@
 package su.asgor.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.persistence.*;
+
+import su.asgor.config.gson.Exclude;
 
 @Entity
 @Table(name = "document")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Document {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator="document_seq_gen")
@@ -19,7 +17,7 @@ public class Document {
     private String url;
     @ManyToOne
     @JoinColumn(name = "purchase_id", nullable = false)
-    @JsonIgnore
+    @Exclude
     private Purchase purchase;
 
     public Document() { }

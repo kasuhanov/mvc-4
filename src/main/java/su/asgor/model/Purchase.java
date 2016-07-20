@@ -1,8 +1,8 @@
 package su.asgor.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import su.asgor.config.gson.Exclude;
 import su.asgor.parser.generated.fz223.PurchaseNoticeStatusType;
+import su.asgor.service.PurchaseService;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,13 +20,12 @@ import java.util.List;
                 @Index(columnList = "type", name = "purchase_type_index")
         }
 )
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Purchase {
     @Id
     private String id;
     private PurchaseType type;
     @Transient
-    @JsonIgnore
+    @Exclude
     private PurchaseNoticeStatusType status;
     @Transient
     private Boolean completed = Boolean.FALSE;
@@ -40,7 +39,7 @@ public class Purchase {
     @Column(name = "purchase_code_name",columnDefinition = "TEXT")
     private String purchaseCodeName;
     @ManyToMany(mappedBy="favs")
-    @JsonIgnore
+    @Exclude
     private List<User> users;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "purchase_category",  joinColumns = {
@@ -49,7 +48,7 @@ public class Purchase {
                     @Index(name = "category_purchase_index",columnList = "category_id, purchase_id")},
             inverseJoinColumns = { @JoinColumn(name = "category_id",
                     nullable = false, updatable = false) })
-    @JsonIgnore
+    @Exclude
     private List<Category> categories = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
@@ -115,12 +114,12 @@ public class Purchase {
     @Column(name = "event_date")
     @Temporal(TemporalType.DATE)
     private Date eventDate;
-    @JsonIgnore
     @Transient
+    @Exclude
     private boolean after;
     //download
     @OneToMany(mappedBy="purchase")
-    @JsonIgnore
+    @Exclude
     private List<XMLFile> xmlFiles;
     //fz44
     private String fz;
@@ -138,7 +137,7 @@ public class Purchase {
     public Purchase() { }
 
     public Purchase setupCompleted(){
-        //setCompleted(PurchaseService.isCompleted(this));
+        setCompleted(PurchaseService.isCompleted(this));
         return this;
     }
 

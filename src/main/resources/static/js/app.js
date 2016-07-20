@@ -8,40 +8,15 @@ app.run(function($rootScope){
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     $stateProvider
-        .state('home', {
-            url: '/{page}?order&orderby',
-            templateUrl : 'pages/purchase_list.html',
-            controller : 'UncompletedPurchaseListController'
-        })
-        .state('home-all', {
-            url: '/all-purchases/{page}?order&orderby',
-            templateUrl : 'pages/purchase_all_list.html',
-            controller : 'PurchaseListController'
-        })
-        .state('category', {
-            url: '/category/{id}/{page}?order&orderby',
-            templateUrl : 'pages/category_purchase_list.html',
-            controller : 'CategoryPurchasesController'
-        })
         .state('purchase', {
             url: '/purchase/{id}',
             templateUrl : 'pages/purchase_detail.html',
             controller : 'PurchaseDetailController'
         })
-        .state('customer', {
-        	url : '/customer/{id}/{page}?order&orderby',
-        	templateUrl : 'pages/customer_detail.html',
-            controller  : 'CustomerDetailController'
-        })
         .state('search',{
             url : '/search/?id&quick&fz&query&customerDialog&corder&cpage&corderby&hideFilter&order&orderby&purchaseName&customer&minPrice&maxPrice&category&type&completed&startDate&endDate/{page}',
         	templateUrl : 'pages/advanced_search.html',
             controller  : 'AdvancedSearchController'
-        })
-        .state('search-result', {
-        	url : '/search/result/{search_text}/{page}?order&orderby',
-        	templateUrl : 'pages/search_result.html',
-            controller  : 'SearchResultController'
         })
         .state('registration',{
             url : '/registration/',
@@ -62,11 +37,6 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
             url : '/recovery/{token}',
         	templateUrl : 'pages/recovery-pas.html',
             controller  : 'RecoveryPasController'
-        })
-        .state('other', {
-            url: '/other/{page}?order&orderby',
-            templateUrl : 'pages/other_purchase_list.html',
-            controller : 'OtherController'
         })
         .state('fav',{
             url : '/fav/{page}?order&orderby',
@@ -98,12 +68,8 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
             templateUrl : 'pages/error.html',
             controller  : 'ErrorController'
         });
-	$urlRouterProvider.when('/other','/other/1');
 	$urlRouterProvider.when('/fav/','/fav/1');
-	$urlRouterProvider.when('/category/{id}','/category/{id}/1');
-	$urlRouterProvider.when('/customer/{id}','/customer/{id}/1');
-	$urlRouterProvider.when('/all-purchases','/all-purchases/1');
-	$urlRouterProvider.otherwise('/1');
+	$urlRouterProvider.otherwise('/search/?hideFilter=true&completed=false');
 });
 
 app.directive('purchases', function () {

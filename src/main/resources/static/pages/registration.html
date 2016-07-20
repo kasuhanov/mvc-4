@@ -1,47 +1,53 @@
 <h3>Регистрация в системе</h3>
 <div class="main-block" id="input_block">
-     <form class="form-inline form" name="registrationForm" ng-submit="registrate()">
-         <div>
-             <div ng-class="{ 'has-error': registrationForm.email.$touched && registrationForm.email.$invalid }">
-                 <label>Адрес электронной почты</label><br/>
-                 <input type="email" name="email" ng-model="user.email" required/>
-                 <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="user.email=null">
-                 <div class="help-block" ng-messages="registrationForm.email.$error" ng-if="registrationForm.email.$touched">
-                     <p ng-message="required">Это поле обязательное.</p>
-                     <p ng-message="email">Некорректный электронный адрес.</p>
+
+         <form class="form-inline form" name="registrationForm" ng-submit="registrate()">
+             <div ng-show="!success">
+                 <div>
+                     <div ng-class="{ 'has-error': registrationForm.email.$touched && registrationForm.email.$invalid }">
+                         <label>Адрес электронной почты</label><br/>
+                         <input type="email" name="email" ng-model="user.email" required/>
+                         <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="user.email=null">
+                         <div class="message-block" ng-messages="registrationForm.email.$error" ng-if="registrationForm.email.$touched">
+                             <p ng-message="required">Это поле обязательное.</p>
+                             <p ng-message="email">Некорректный электронный адрес.</p>
+                         </div>
+                     </div>
+                     <div ng-class="{ 'has-error': registrationForm.password.$touched && registrationForm.password.$invalid }">
+                         <label>Пароль</label><br/>
+                         <input name="password" type="password" ng-model="user.password" ng-minlength="4" ng-maxlength="20" required/>
+                         <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="user.password=null">
+                         <div class="message-block" ng-messages="registrationForm.password.$error" ng-if="registrationForm.password.$touched">
+                             <p ng-message="required">Это поле обязательное.</p>
+                             <p ng-message="minlength">Пароль должен быть не меньше 4 символов.</p>
+                             <p ng-message="minlength">Слишком длинный пароль.</p>
+                         </div>
+                     </div>
+                     <div ng-class="{ 'has-error': registrationForm.confirmPassword.$touched && registrationForm.confirmPassword.$invalid }">
+                         <label>Подтверждение пароля</label><br/>
+                         <input name="confirmPassword" type="password" ng-model="user.confirmPassword" compare-to="user.password" required/>
+                         <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="user.confirmPassword=null">
+                         <div class="message-block" ng-messages="registrationForm.confirmPassword.$error" ng-if="registrationForm.confirmPassword.$touched">
+                             <p ng-message="required">Это поле обязательное.</p>
+                             <p ng-message="compareTo">Пароли должны совпадать.</p>
+                         </div>
+                     </div>
+                     <br>
+                     <div>
+                     <span class="atabl">
+                         <a href="" ng-class="{'disabled':registrationForm.$invalid || success || loading}" ng-click="registrate()">Зарегистрироваться</a>
+                     </span>
+                     </div>
+                     <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="loading"></span>
+                     <div class="message-block" style="color:#a94442;">
+                         <p ng-show="emailExists">Пользователь с данным электронным адресом уже зарегистрирован!</p>
+                         <p ng-show="failed">При обработке запроса произошла ошибка.</p>
+                         <p ng-show="success" style="color:green">На ваш e-mail отправлено письмо. Подтвердите регистрацию.</p>
+                     </div>
                  </div>
              </div>
-             <div ng-class="{ 'has-error': registrationForm.password.$touched && registrationForm.password.$invalid }">
-                 <label>Пароль</label><br/>
-                 <input name="password" type="password" ng-model="user.password" ng-minlength="4" ng-maxlength="20" required/>
-                 <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="user.password=null">
-                 <div class="help-block" ng-messages="registrationForm.password.$error" ng-if="registrationForm.password.$touched">
-                     <p ng-message="required">Это поле обязательное.</p>
-                     <p ng-message="minlength">Пароль должен быть не меньше 4 символов.</p>
-                     <p ng-message="minlength">Слишком длинный пароль.</p>
-                 </div>
+             <div ng-show="success" class="centered">
+                 <h4>На ваш e-mail отправлено письмо. Подтвердите регистрацию.</h4>
              </div>
-             <div ng-class="{ 'has-error': registrationForm.confirmPassword.$touched && registrationForm.confirmPassword.$invalid }">
-                 <label>Подтверждение пароля</label><br/>
-                 <input name="confirmPassword" type="password" ng-model="user.confirmPassword" compare-to="user.password" required/>
-                 <img class="finger" src="img/b-clear.gif" width="20" height="20" ng-click="user.confirmPassword=null">
-                 <div class="help-block" ng-messages="registrationForm.confirmPassword.$error" ng-if="registrationForm.confirmPassword.$touched">
-                     <p ng-message="required">Это поле обязательное.</p>
-                     <p ng-message="compareTo">Пароли должны совпадать.</p>
-                 </div>
-             </div>
-             <br>
-             <div>
-                 <span class="atabl">
-                     <a href="" ng-class="{'disabled':registrationForm.$invalid || success || loading}" ng-click="registrate()">Зарегестрироваться</a>
-                 </span>
-             </div>
-             <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="loading"></span>
-             <div class="help-block" style="color:#a94442;">
-                 <p ng-show="emailExists">Пользователь с данным электронным адресом уже зарегестрирован!</p>
-                 <p ng-show="failed">При обработке запроса произошла ошибка.</p>
-                 <p ng-show="success" style="color:green">На ваш e-mail отправлено письмо. Подтвердите регистрацию.</p>
-             </div>
-         </div>
-	</form>
+         </form>
 </div>
