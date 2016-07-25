@@ -118,11 +118,10 @@
             <version>${postgresql.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-
+		    <groupId>com.zaxxer</groupId>
+		    <artifactId>HikariCP</artifactId>
+		    <version>2.4.7</version>
+		</dependency>
         <!-- webjars -->
         <dependency>
             <groupId>org.webjars</groupId>

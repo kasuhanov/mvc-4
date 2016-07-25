@@ -37,6 +37,7 @@ public class DatabaseConfig {
         hibernateProperties.put("hibernate.dialect","org.hibernate.dialect.PostgreSQL9Dialect");
         hibernateProperties.put("hibernate.show_sql","false");
         hibernateProperties.put("hibernate.enable_lazy_load_no_trans","true");
+        hibernateProperties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
         //hibernateProperties.put("hibernate.hbm2ddl.auto","update");
 
         em.setJpaProperties(hibernateProperties);

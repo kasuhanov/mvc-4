@@ -106,4 +106,13 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
 
         }
     }
+    
+    @Override
+	protected DataSource resolveSpecifiedDataSource(Object dataSource) throws IllegalArgumentException {
+		if (dataSource instanceof DataSource) {
+			return (DataSource) dataSource;
+		}else{
+			return null;
+		}
+	}
 }

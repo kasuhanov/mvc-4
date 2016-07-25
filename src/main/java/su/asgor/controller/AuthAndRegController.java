@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
+
 import su.asgor.dao.UserRepository;
 import su.asgor.dao.VerificationTokenRepository;
 import su.asgor.model.User;
@@ -15,6 +17,8 @@ import su.asgor.service.MailService;
 import su.asgor.service.PropertyService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.DatatypeConverter;
+
 import java.security.Principal;
 import java.util.Collections;
 import java.util.Date;
@@ -33,7 +37,21 @@ public class AuthAndRegController {
 	private PropertyService propertyService;
 
     @RequestMapping("/user")
-    public Principal user(Principal user) {
+    public Principal user(Principal user,HttpServletRequest request) {
+    	String authorization = request.getHeader("authorization");
+    	if((authorization != null) && (authorization.startsWith("Basic"))){
+        	String decoded = new String(DatatypeConverter.parseBase64Binary(authorization.substring(6)));
+        	String login = decoded.substring(0, decoded.indexOf(":"));
+        	String password = decoded.substring(decoded.indexOf(":")+1);
+        	User userInDb = userRepository.findByEmail(login);
+        	if(userInDb !=null && BCrypt.checkpw(password,userInDb.getPassword())){
+    			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login,
+    					userInDb.getPassword(),
+    					Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+    			SecurityContextHolder.getContext().setAuthentication(token);
+    			return token;
+    		}
+    	}
         return user;
     }
 

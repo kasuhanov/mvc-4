@@ -1,18 +1,18 @@
 package su.asgor.config.db.util;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.Properties;
 
 @Component
@@ -21,9 +21,9 @@ public class DataSourceProvider{
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private String ip="localhost";
     private String port="5432";
-    private String dbname="portal";
+    private String dbname="database_name";
     private String username="postgres";
-    private String password="system";
+    private String password="password";
     @Autowired
     private ServletContext servletContext;
     private DataSource dataSource;
@@ -49,7 +49,6 @@ public class DataSourceProvider{
             dataSource = defaultDataSource();
         }catch (Exception e){
             log.warn("properties file not found");
-            dataSource = dataSource("localhost", "5432", "mock_db-name", "n213u123123ll", "n312uleqwl");
         }finally {
             try {
                 if(is != null)
@@ -60,25 +59,22 @@ public class DataSourceProvider{
         }
     }
 
-    public DataSource getDataSource()
-    {
+    public DataSource getDataSource(){
         return dataSource;
     }
 
     public DataSource dataSource(String ip, String port, String dbname, String username, String password) {
-        BasicDataSource ds = new BasicDataSource();
-        ds.setUrl("jdbc:postgresql://"+ip+":"+port+"/"+dbname);
-        ds.setDriverClassName("org.postgresql.Driver");
+        HikariDataSource ds = new HikariDataSource();
         ds.setUsername(username);
         ds.setPassword(password);
-
-        ds.setInitialSize(3);
-        ds.setMinIdle(3);
-        ds.setMaxIdle(8);
-        ds.setTimeBetweenEvictionRunsMillis(30000);
-        ds.setMinEvictableIdleTimeMillis(60000);
-        ds.setTestOnBorrow(true);
-        ds.setValidationQuery("select version()");
+        ds.setDriverClassName("org.postgresql.Driver");
+        ds.setJdbcUrl("jdbc:postgresql://"+ip+":"+port+"/"+dbname);
+        ds.setUsername(username);
+        ds.setPassword(password);
+        ds.setMaximumPoolSize(5);
+        ds.setMinimumIdle(1);
+        ds.setIdleTimeout(45000);
+        ds.setConnectionTestQuery("select version();");
         return ds;
     }
 
@@ -93,8 +89,8 @@ public class DataSourceProvider{
     public void close(DataSource dataSource) {
         try {
             if (dataSource!=null)
-                ((BasicDataSource)dataSource).close();
-        } catch (SQLException e) {
+                ((HikariDataSource)dataSource).close();
+        } catch (Exception e) {
             log.error(e.getMessage(),e);
         }
     }
